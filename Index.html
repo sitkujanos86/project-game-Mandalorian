@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/style.css" />
+    <title>Shadows of Mandalore</title>
+</head>
+<body>
+    <main>
+        <!--Starting screen here -->
+        <div id="game-intro">
+            <img src="./images/startscrn.png" alt="Start Screen" class="start-img"/>
+            <br />
+            <button id="start-button">Start Game</button>
+            <p>Use the arrow buttons to contol our heroes!
+                Space button to shoot your blaster!
+            </p>
+            <img src="./images/arrows.png" alt="" class="arrows-img"/>
+            <img src="./images/space.png" alt="" class="space-img"/>
+        </div>
+
+        <!--Game screen here -->
+        <div id="game-container">
+            <div>
+             <h2>Stats</h2>
+             <p>Score: <span id="score">0</span></p>
+             <p>Lives: <span id="lives">3</span></p>
+            </div>
+            <div id="game-screen"></div>
+        </div>
+        
+        <!--Ending screen here -->
+        <div id="game-end">
+            <img src="./images/startscrn" alt="" class="start-img" />
+            <h1>Game Over</h1>
+            <br />
+            <button id="restart-button">Restart</button>
+        </div>
+    </main>
+
+    <script type="text/javascript" src="js/player.js"></script>
+    <script type="text/javascript" src="js/game.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+</body>
+</html>
