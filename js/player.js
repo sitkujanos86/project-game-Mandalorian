@@ -51,4 +51,21 @@ class Player {
         this.element.style.left = `${this.left}px`;
         this.element.style.top = `${this.top}px`;     
     }
+
+    didCollide (enemy) {
+        const playerRect = this.element.getBoundingClientRect()
+        const enemyRect = enemy.element.getBoundingClientRect()
+
+        if (
+            playerRect.left < enemyRect.right &&
+            playerRect.right > enemyRect.left &&
+            playerRect.top < enemyRect.bottom &&
+            playerRect.bottom > enemyRect.top
+        ) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
 }
