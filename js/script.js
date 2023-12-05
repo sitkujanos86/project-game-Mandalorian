@@ -40,8 +40,9 @@ window.addEventListener('load', () => {
             console.log('Right')
             game.player.directionX = 5
         }
-        if (event.code == 'Space') {
+        if (event.code === 'Space') {
             console.log('Shoot')
+            game.player.shoot();
         }
     })
 

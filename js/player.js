@@ -7,14 +7,16 @@ class Player {
         this.width = 160
         this.directionX = 0
         this.directionY = 0
+        this.isShooting = false
+        this.projectile = null
         this.element = document.createElement('img')
-        this.element.src = "../images/mando.png"
+        this.element.src = "images/mando.png"
         this.element.style.position = 'absolute'
         this.element.style.width = `${this.width}px`;
         this.element.style.height = `${this.height}px`;
         this.element.style.left = `${this.left}px`;
         this.element.style.top = `${this.top}px`;
-
+        
         this.gameScreen.appendChild(this.element)
     }
     move () {
@@ -46,7 +48,22 @@ class Player {
 
         this.updatePosition()
     }
-
+    shoot() {
+        console.log('Player shoots!')
+        if (!this.isShooting && (!this.projectile || !this.projectile.visible)) {
+            this.isShooting = true;
+            if (this.projectile && this.projectile.visible) {
+                this.projectile.setVisibility(false);
+                this.projectile = null;
+            }
+            this.projectile = new Projectile(this.gameScreen, this.left + this.width, this.top + this.height / 2);
+            this.projectile.setVisibility(true); // Állítsd láthatóvá a lövedéket
+            this.projectile.startMoving();
+            setTimeout(() => {
+                this.isShooting = false;
+            }, 100);
+        }
+    }
     updatePosition() {
         this.element.style.left = `${this.left}px`;
         this.element.style.top = `${this.top}px`;     
@@ -68,4 +85,5 @@ class Player {
             return false
         }
     }
+
 }

@@ -6,7 +6,7 @@ class Enemy {
         this.top = Math.floor(Math.random() * (720 - this.height))
         this.left = 1500
         this.element = document.createElement('img')
-        this.element.src = "../images/trooper.png"
+        this.element.src = "images/trooper.png"
         this.element.style.position = 'absolute'
         this.element.style.width = `${this.width}px`;
         this.element.style.height = `${this.height}px`;
