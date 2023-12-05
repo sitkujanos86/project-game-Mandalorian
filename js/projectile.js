@@ -1,7 +1,7 @@
 class Projectile {
     constructor(gameScreen, x, y) {
         this.gameScreen = gameScreen;
-        this.width = 50;
+        this.width = 100;
         this.height = 50;
         this.visible = false; // Alapértelmezés szerint nem látható
         this.element = document.createElement('img');

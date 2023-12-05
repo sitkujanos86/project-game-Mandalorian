@@ -6,7 +6,7 @@ class Game {
         this.height = 720
         this.width = 1500
         this.player = null
-        
+        this.projectile = 
         this.enemies = []
         this.animateId = null
         this.score = 0
