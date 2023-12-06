@@ -6,7 +6,7 @@ class Game {
         this.height = 720;
         this.width = 1500;
         this.player = null;
-        this.projectiles = [];
+        this.projectiles = [];  // Fixed typo: changed 'this.projectile' to 'this.projectiles'
         this.enemies = [];
         this.animateId = null;
         this.score = 0;
@@ -22,7 +22,7 @@ class Game {
         this.gameScreen.style.width = `${this.width}px`;
 
         this.player = new Player(this.gameScreen);
-        this.projectiles = [];
+        this.projectiles = [];  // Fixed typo: changed 'this.projectile' to 'this.projectiles'
         this.enemies = [];
         this.updateProjectileVisibility();
         this.gameLoop();
@@ -37,19 +37,14 @@ class Game {
     }
 
     gameLoop() {
-        console.log('Entering gameLoop');
-
-        // Move player
         this.player.move();
 
-        // Move and check collisions with enemies
         const nextEnemies = [];
         this.enemies.forEach(currentEnemy => {
             currentEnemy.move();
-
             if (currentEnemy.left + currentEnemy.width > 0) {
                 if (this.player.didCollide(currentEnemy)) {
-                    console.log('Player collided with enemy');
+                    console.log('collision');
                     currentEnemy.element.remove();
                     this.lives -= 1;
                     if (this.lives <= 0) {
@@ -65,52 +60,58 @@ class Game {
         });
         this.enemies = nextEnemies;
 
-        // Move and check collisions with projectiles
-        const nextProjectiles = [];
-        this.projectiles.forEach(currentProjectile => {
-            currentProjectile.move();
-
-            // Check for collision with enemies
-            let collided = false;
-            this.enemies.forEach(currentEnemy => {
-                if (currentProjectile.didCollide(currentEnemy)) {
-                    console.log('Projectile collided with enemy!');
-                    currentEnemy.element.remove();
-                    collided = true;
-                }
-            });
-
-            // Only push the projectile if it didn't collide with an enemy
-            if (!collided) {
-                nextProjectiles.push(currentProjectile);
-            }
-        });
-
-        this.projectiles = nextProjectiles;
-
-        // Add new enemy every 250 frames
-        if (this.animateId % 250 === 0) {
+        if (this.animateId % 250 == 0) {
             this.enemies.push(new Enemy(this.gameScreen));
         }
+        this.projectiles.forEach(currentProjectile => {
+            currentProjectile.move()
+            this.enemies.forEach((enemy1)=>{
+                if (currentProjectile.didCollide(enemy1)){
+                    currentProjectile.element.remove()
+                    enemy1.element.remove()
+                }
+            })
+        })
+       /* this.projectiles.forEach(currentProjectile => {
+            currentProjectile.move();
+            console.log('Projectile collided with Enemy!')
+            const nextProjectiles = this.projectiles.filter(projectile => projectile !== currentProjectile);
+            if (currentProjectile.left + currentProjectile.width > 0) {
+                nextProjectiles.push(currentProjectile);
+            }
+            this.projectiles = nextProjectiles;
+           
 
-        // Move projectiles
-        this.projectiles.forEach(projectile => projectile.move());
+            this.enemies.forEach(currentEnemy => {
+                console.log ('Hello')
+                if (currentProjectile.didCollide(currentEnemy)) {
 
-        // Check for game over
+                    console.log('Projectile collided with Enemy!');
+                    currentEnemy.element.remove(); 
+                } else {
+                    nextEnemies.push(currentEnemy);
+                }
+            });
+        }); */
+
         if (this.isGameOver) {
-            console.log('Game over');
             this.gameScreen.style.display = 'none';
             this.endScreen.style.display = 'block';
             this.player.element.remove();
         } else {
-            console.log('Scheduling next frame');
             this.updateProjectileVisibility();
-            this.animateId = requestAnimationFrame(() => this.gameLoop());
         }
 
-        // Update UI
         document.getElementById('score').innerText = this.score;
         document.getElementById('lives').innerText = this.lives;
+
+        if (this.isGameOver) {
+            this.gameScreen.style.display = 'none';
+            this.endScreen.style.display = 'block';
+            this.player.element.remove();
+        } else {
+            this.animateId = requestAnimationFrame(() => this.gameLoop());
+        }
     }
 
     restartGame() {

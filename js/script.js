@@ -42,7 +42,7 @@ window.addEventListener('load', () => {
         }
         if (event.code === 'Space') {
             console.log('Shoot')
-            game.player.shoot();
+            game.projectiles.push(new Projectile(game.gameScreen, game.player.left + 160, game.player.top +130)) ;
         }
     })
 

@@ -2,7 +2,7 @@ class Enemy {
     constructor (gameScreen) {
         this.gameScreen = gameScreen
         this.height = 250
-        this.width = 125
+        this.width = 130
         this.top = Math.floor(Math.random() * (720 - this.height))
         this.left = 1500
         this.element = document.createElement('img')

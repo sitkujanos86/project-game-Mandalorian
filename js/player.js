@@ -53,15 +53,15 @@ class Player {
         if (!this.isShooting && (!this.projectile || !this.projectile.visible)) {
             this.isShooting = true;
             if (this.projectile && this.projectile.visible) {
-                this.projectile.setVisibility(false);
-                this.projectile = null;
+                
             }
+           
             this.projectile = new Projectile(this.gameScreen, this.left + this.width, this.top + this.height / 2);
             this.projectile.setVisibility(true); // Állítsd láthatóvá a lövedéket
             this.projectile.startMoving();
             setTimeout(() => {
                 this.isShooting = false;
-            }, 100);
+            }, 50);
         }
     }
     updatePosition() {
