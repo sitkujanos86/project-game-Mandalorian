@@ -26,4 +26,20 @@ updatePosition() {
     this.element.style.left = `${this.left}px`;
         this.element.style.top = `${this.top}px`;
 }
+didCollide(projectile) {
+    const enemyRect = this.element.getBoundingClientRect();
+    const projectileRect = projectile.element.getBoundingClientRect();
+
+    if (
+        enemyRect.left < projectileRect.right &&
+        enemyRect.right > projectileRect.left &&
+        enemyRect.top < projectileRect.bottom &&
+        enemyRect.bottom > projectileRect.top
+    ) {
+        console.log('Enemy Collision detected!');
+        return true;
+    } else {
+        return false;
+    }
+}
 }
