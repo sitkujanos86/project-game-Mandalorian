@@ -6,7 +6,7 @@ class Projectile {
         this.left = x
         this.visible = false;
         this.element = document.createElement('img');
-        this.element.src = '../images/projectile.png';
+        this.element.src = 'images/projectile.png';
         this.element.style.position = 'absolute';
         this.element.style.width = `${this.width}px`;
         this.element.style.height = `${this.height}px`;

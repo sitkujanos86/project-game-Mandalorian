@@ -57,7 +57,7 @@ class Player {
             }
            
             this.projectile = new Projectile(this.gameScreen, this.left + this.width, this.top + this.height / 2);
-            this.projectile.setVisibility(true); // Állítsd láthatóvá a lövedéket
+            this.projectile.setVisibility(true); 
             this.projectile.startMoving();
             setTimeout(() => {
                 this.isShooting = false;
