@@ -1,9 +1,9 @@
 class Projectile {
     constructor(gameScreen, x, y) {
         this.gameScreen = gameScreen;
-        this.width = 100;
+        this.width = 50;
         this.height = 50;
-        this.visible = false; // Alapértelmezés szerint nem látható
+        this.visible = false; 
         this.element = document.createElement('img');
         this.element.src = '../images/projectile.png';
         this.element.style.position = 'absolute';
@@ -17,12 +17,12 @@ class Projectile {
         this.updateVisibility();
     }
 
-    // Új metódus az láthatóság frissítéséhez
+    
     updateVisibility() {
         this.element.style.display = this.visible ? 'block' : 'none';
     }
 
-    // Lövedék láthatóságának beállítása
+    
     setVisibility(visible) {
         this.visible = visible;
         this.updateVisibility();
@@ -39,13 +39,13 @@ class Projectile {
     move() {
         if (this.visible && this.isMoving) {
             const currentLeft = parseInt(this.element.style.left, 10) || 0;
-            const newLeft = currentLeft + 25; // Balról jobbra mozgás
+            const newLeft = currentLeft + 25; 
     
             this.element.style.left = `${newLeft}px`;
     
-            // Ellenőrizze, hogy a lövedék elért-e egy bizonyos pontot (pl. 1300px)
+            
             if (newLeft > 1300) {
-                // Ha igen, állítsd láthatatlanná és helyezd vissza az eredeti pozíciójába
+               
                 this.setVisibility(false);
                 this.element.style.left = '0px';
                 this.stopMoving() 
@@ -54,4 +54,21 @@ class Projectile {
             }
         }
     }
+    didCollide(enemy) {
+        const enemyRect = enemy.element.getBoundingClientRect();
+        const projectileRect = this.element.getBoundingClientRect();
+    
+        if (
+            projectileRect.left < enemyRect.right &&
+            projectileRect.right > enemyRect.left &&
+            projectileRect.top < enemyRect.bottom &&
+            projectileRect.bottom > enemyRect.top
+        ) {
+            console.log('Projectile Collision detected!');
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
 }
