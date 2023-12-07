@@ -1,6 +1,7 @@
 window.addEventListener('load', () => {
     const startButton = document.getElementById('start-button')
     const restartButton = document.getElementById('restart-button')
+    const winRestartButton = document.getElementById('win-restart-button');
 
     let game
 
@@ -11,17 +12,45 @@ window.addEventListener('load', () => {
     }
 
     function restartGame() {
-        game = new Game ()
-        game.start()
+        // Clear existing game objects
+        clearGameObjects();
+    
+        // Create a new instance of the Game class
+        game = new Game();
+    
+        // Start the new game
+        game.start();
     }
+    
+    function clearGameObjects() {
+        // Clear enemies
+        game.enemies.forEach(enemy => enemy.element.remove());
+        game.enemies = [];
+    
+        // Clear projectiles
+        game.projectiles.forEach(projectile => projectile.element.remove());
+        game.projectiles = [];
+    
+        // Clear player
+        if (game.player) {
+            game.player.element.remove();
+            game.player = null;
+        }
+    }
+    
 
-    startButton.addEventListener("click", function () {
+       startButton.addEventListener("click", function () {
         startGame()
     })
 
     restartButton.addEventListener("click", function () {
-        game.restartGame()
+        location.reload()
     })
+
+    winRestartButton.addEventListener('click', () => {
+        document.getElementById('game-win').style.display = 'none';
+        location.reload()
+    });
 
     document.addEventListener('keydown', event => {
         if (event.code == 'ArrowUp' || event.code == 'KeyW') {

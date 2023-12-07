@@ -13,13 +13,9 @@ class Game {
         this.lives = 3;
         this.isGameOver = false;
         this.backgroundChanged = false;
-        this.backgroundMusic = document.getElementById('backgroundMusic');
-        this.playBackgroundMusic();
-    }
-
-    playBackgroundMusic() {
-        this.backgroundMusic.play();
-    }
+        this.backgroundMusic = new Audio('./audio.mp3')
+        this.WINNING_SCORE = 700;
+        }
 
     start() {
         this.startScreen.style.display = 'none';
@@ -34,7 +30,7 @@ class Game {
         this.updateProjectileVisibility();
         this.checkAndChangeBackground();
         this.gameLoop();
-        this.playBackgroundMusic();
+        this.backgroundMusic.play()
     }
 
     updateProjectileVisibility() {
@@ -44,8 +40,17 @@ class Game {
             });
         }
     }
+    checkWinConditions() {
+        if (this.score >= this.WINNING_SCORE) {
+            this.showWinScreen();
+        }
+    }
 
     gameLoop() {
+        if (this.score >= this.WINNING_SCORE) {
+            this.isGameOver=true
+            
+        }
         this.player.move();
     
         const nextEnemies = [];
@@ -92,9 +97,12 @@ class Game {
         console.log('Projectiles:', this.projectiles);
     
         if (this.isGameOver) {
-            this.gameScreen.style.display = 'none';
+            if (this.lives <=0 ) {
+                this.gameScreen.style.display = 'none';
             this.endScreen.style.display = 'block';
             this.player.element.remove();
+            } else { this.showWinScreen()}
+           
         } else {
             this.updateProjectileVisibility();
         }
@@ -103,9 +111,11 @@ class Game {
         document.getElementById('lives').innerText = this.lives;
     
         if (this.isGameOver) {
-            this.gameScreen.style.display = 'none';
+            if (this.lives <=0 ) {
+                this.gameScreen.style.display = 'none';
             this.endScreen.style.display = 'block';
             this.player.element.remove();
+            } else { this.showWinScreen()}
         } else {
             this.animateId = requestAnimationFrame(() => this.gameLoop());
         }
@@ -124,9 +134,13 @@ class Game {
             this.changeBackground('images/surface.jpg'); 
         }
     }
+
+    playBackgroundMusic() {
+        this.backgroundMusic.play();
+    }
     stopBackgroundMusic() {
         this.backgroundMusic.pause();
-        this.backgroundMusic.currentTime = 0; // Reset the music to the beginning
+        this.backgroundMusic.currentTime = 0; 
     }
     pauseBackgroundMusic() {
         this.backgroundMusic.pause();
@@ -152,5 +166,10 @@ class Game {
         }
 
         this.start();
+    }
+     showWinScreen() {
+        this.stopBackgroundMusic();
+        document.getElementById('game-win').style.display = 'block';
+        document.getElementById('game-screen').style.display = 'none';
     }
 }
