@@ -40,7 +40,7 @@ class Game {
 
     gameLoop() {
         this.player.move();
-
+    
         const nextEnemies = [];
         this.enemies.forEach(currentEnemy => {
             currentEnemy.move();
@@ -61,7 +61,7 @@ class Game {
             }
         });
         this.enemies = nextEnemies;
-
+    
         if (this.animateId % 25 == 0) {
             this.enemies.push(new Enemy(this.gameScreen));
         }
@@ -71,13 +71,21 @@ class Game {
             this.enemies.forEach((currentEnemy)=>{
                 if (currentProjectile.didCollide(currentEnemy)){
                     this.score += 15;
+                    currentEnemy.element.remove(); // Remove enemy when hit by a projectile
                 } else {
                     collidedEnemies.push(currentEnemy)
                 }
             })
             this.enemies = collidedEnemies
         })
-       
+    
+        // Remove projectiles that are off-screen
+        this.projectiles = this.projectiles.filter(projectile => projectile.left < this.width);
+    
+        // Log the enemies and projectiles arrays
+        console.log('Enemies:', this.enemies);
+        console.log('Projectiles:', this.projectiles);
+    
         if (this.isGameOver) {
             this.gameScreen.style.display = 'none';
             this.endScreen.style.display = 'block';
@@ -85,10 +93,10 @@ class Game {
         } else {
             this.updateProjectileVisibility();
         }
-
+    
         document.getElementById('score').innerText = this.score;
         document.getElementById('lives').innerText = this.lives;
-
+    
         if (this.isGameOver) {
             this.gameScreen.style.display = 'none';
             this.endScreen.style.display = 'block';
@@ -98,6 +106,7 @@ class Game {
         }
         this.checkAndChangeBackground();
     }
+    
 
     changeBackground(newBackground) {
         this.gameScreen.style.backgroundImage = `url('${newBackground}')`;
