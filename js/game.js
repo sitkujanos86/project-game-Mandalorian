@@ -13,6 +13,12 @@ class Game {
         this.lives = 3;
         this.isGameOver = false;
         this.backgroundChanged = false;
+        this.backgroundMusic = document.getElementById('backgroundMusic');
+        this.playBackgroundMusic();
+    }
+
+    playBackgroundMusic() {
+        this.backgroundMusic.play();
     }
 
     start() {
@@ -28,6 +34,7 @@ class Game {
         this.updateProjectileVisibility();
         this.checkAndChangeBackground();
         this.gameLoop();
+        this.playBackgroundMusic();
     }
 
     updateProjectileVisibility() {
@@ -71,7 +78,7 @@ class Game {
             this.enemies.forEach((currentEnemy)=>{
                 if (currentProjectile.didCollide(currentEnemy)){
                     this.score += 15;
-                    currentEnemy.element.remove(); // Remove enemy when hit by a projectile
+                    currentEnemy.element.remove(); 
                 } else {
                     collidedEnemies.push(currentEnemy)
                 }
@@ -79,10 +86,8 @@ class Game {
             this.enemies = collidedEnemies
         })
     
-        // Remove projectiles that are off-screen
         this.projectiles = this.projectiles.filter(projectile => projectile.left < this.width);
     
-        // Log the enemies and projectiles arrays
         console.log('Enemies:', this.enemies);
         console.log('Projectiles:', this.projectiles);
     
@@ -118,6 +123,17 @@ class Game {
         } else if (this.score >= 500 && !this.backgroundChanged) {
             this.changeBackground('images/surface.jpg'); 
         }
+    }
+    stopBackgroundMusic() {
+        this.backgroundMusic.pause();
+        this.backgroundMusic.currentTime = 0; // Reset the music to the beginning
+    }
+    pauseBackgroundMusic() {
+        this.backgroundMusic.pause();
+    }
+
+    resumeBackgroundMusic() {
+        this.backgroundMusic.play();
     }
 
     restartGame() {
