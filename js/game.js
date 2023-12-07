@@ -6,12 +6,13 @@ class Game {
         this.height = 720;
         this.width = 1500;
         this.player = null;
-        this.projectiles = [];  // Fixed typo: changed 'this.projectile' to 'this.projectiles'
+        this.projectiles = [];  
         this.enemies = [];
         this.animateId = null;
         this.score = 0;
         this.lives = 3;
         this.isGameOver = false;
+        this.backgroundChanged = false;
     }
 
     start() {
@@ -22,9 +23,10 @@ class Game {
         this.gameScreen.style.width = `${this.width}px`;
 
         this.player = new Player(this.gameScreen);
-        this.projectiles = [];  // Fixed typo: changed 'this.projectile' to 'this.projectiles'
+        this.projectiles = [];  
         this.enemies = [];
         this.updateProjectileVisibility();
+        this.checkAndChangeBackground();
         this.gameLoop();
     }
 
@@ -60,40 +62,22 @@ class Game {
         });
         this.enemies = nextEnemies;
 
-        if (this.animateId % 250 == 0) {
+        if (this.animateId % 25 == 0) {
             this.enemies.push(new Enemy(this.gameScreen));
         }
         this.projectiles.forEach(currentProjectile => {
             currentProjectile.move()
-            this.enemies.forEach((enemy1)=>{
-                if (currentProjectile.didCollide(enemy1)){
-                    currentProjectile.element.remove()
-                    enemy1.element.remove()
+            const collidedEnemies = [];
+            this.enemies.forEach((currentEnemy)=>{
+                if (currentProjectile.didCollide(currentEnemy)){
+                    this.score += 15;
+                } else {
+                    collidedEnemies.push(currentEnemy)
                 }
             })
+            this.enemies = collidedEnemies
         })
-       /* this.projectiles.forEach(currentProjectile => {
-            currentProjectile.move();
-            console.log('Projectile collided with Enemy!')
-            const nextProjectiles = this.projectiles.filter(projectile => projectile !== currentProjectile);
-            if (currentProjectile.left + currentProjectile.width > 0) {
-                nextProjectiles.push(currentProjectile);
-            }
-            this.projectiles = nextProjectiles;
-           
-
-            this.enemies.forEach(currentEnemy => {
-                console.log ('Hello')
-                if (currentProjectile.didCollide(currentEnemy)) {
-
-                    console.log('Projectile collided with Enemy!');
-                    currentEnemy.element.remove(); 
-                } else {
-                    nextEnemies.push(currentEnemy);
-                }
-            });
-        }); */
-
+       
         if (this.isGameOver) {
             this.gameScreen.style.display = 'none';
             this.endScreen.style.display = 'block';
@@ -111,6 +95,19 @@ class Game {
             this.player.element.remove();
         } else {
             this.animateId = requestAnimationFrame(() => this.gameLoop());
+        }
+        this.checkAndChangeBackground();
+    }
+
+    changeBackground(newBackground) {
+        this.gameScreen.style.backgroundImage = `url('${newBackground}')`;
+    }
+    
+    checkAndChangeBackground() {
+        if (this.score >= 250 && this.score < 500 && !this.backgroundChanged) {
+            this.changeBackground('images/hangar.jpg'); 
+        } else if (this.score >= 500 && !this.backgroundChanged) {
+            this.changeBackground('images/surface.jpg'); 
         }
     }
 

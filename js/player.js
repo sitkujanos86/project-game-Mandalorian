@@ -3,8 +3,8 @@ class Player {
         this.gameScreen = gameScreen
         this.left = 30
         this.top = 250
-        this.height = 250
-        this.width = 160
+        this.height = 200
+        this.width = 120
         this.directionX = 0
         this.directionY = 0
         this.isShooting = false
@@ -20,27 +20,28 @@ class Player {
         this.gameScreen.appendChild(this.element)
     }
     move () {
+        const speedMultiplier = 0.7;
         if (this.left >= 0) {
-            this.left += this.directionX
+            this.left += this.directionX * speedMultiplier
         }
         else {
             this.left = 0
         }
         if (this.left <=1500 -this.width) {
-            this.left += this.directionX
+            this.left += this.directionX * speedMultiplier
         }
         else {
             this.left = 1500 - this.width
         }
         
         if (this.top >= 0) {
-            this.top += this.directionY
+            this.top += this.directionY * speedMultiplier
         }
         else {
             this.top = 0
         }
         if (this.top <=760 -this.height) {
-            this.top += this.directionY
+            this.top += this.directionY * speedMultiplier
         }
         else {
             this.top = 760 - this.height

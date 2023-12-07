@@ -1,7 +1,7 @@
 class Projectile {
     constructor(gameScreen, x, y) {
         this.gameScreen = gameScreen;
-        this.width = 100;
+        this.width = 125;
         this.height = 50;
         this.left = x
         this.visible = false;
@@ -10,8 +10,8 @@ class Projectile {
         this.element.style.position = 'absolute';
         this.element.style.width = `${this.width}px`;
         this.element.style.height = `${this.height}px`;
-        this.element.style.left = `${this.left - 15}px`;
-        this.element.style.top = `${y - 137}px`;
+        this.element.style.left = `${this.left - 5}px`;
+        this.element.style.top = `${y - 140}px`;
         this.isMoving = false;
         this.animationId = null;
 
@@ -42,35 +42,26 @@ class Projectile {
     }
 
     move() {
-        this.left += 25
-        this.element.style.left = `${this.left -45}px`;}
-       /* if (this.visible && this.isMoving) {
-            const currentLeft = parseInt(this.element.style.left, 10) || 0;
-            const newLeft = currentLeft + 25;
-
-            this.element.style.left = `${newLeft}px`;
-
-            if (newLeft > 1300) {
-                this.setVisibility(false);
-                this.element.style.left = '0px';
-                this.stopMoving();
-                this.removeElement();
-            } else {
-                this.animationId = requestAnimationFrame(() => this.move());
-            }
-        }
-    }*/
-
+        this.left += 10
+        this.element.style.left = `${this.left -75}px`;}
+       
     didCollide(enemy) {
         const enemyRect = enemy.element.getBoundingClientRect();
         const projectileRect = this.element.getBoundingClientRect();
     
-        return (
-            projectileRect.left < enemyRect.right &&
-            projectileRect.right > enemyRect.left &&
-            projectileRect.top < enemyRect.bottom &&
-            projectileRect.bottom > enemyRect.top
-        );
+        if (
+            enemyRect.left < projectileRect.right &&
+            enemyRect.right > projectileRect.left &&
+            enemyRect.top < projectileRect.bottom &&
+            enemyRect.bottom > projectileRect.top
+        ) {
+            console.log('Enemy Collision detected!');
+            enemy.removeElement();
+            this.removeElement();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     removeElement() {

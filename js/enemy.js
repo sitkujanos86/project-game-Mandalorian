@@ -1,8 +1,8 @@
 class Enemy {
     constructor (gameScreen) {
         this.gameScreen = gameScreen
-        this.height = 250
-        this.width = 130
+        this.height = 180
+        this.width = 100
         this.top = Math.floor(Math.random() * (720 - this.height))
         this.left = 1500
         this.element = document.createElement('img')
@@ -17,8 +17,7 @@ class Enemy {
 }
 
 move () {
-    this.left -= 4
-    this.top += 0
+    this.left -= 7
     this.updatePosition()
 }
 
@@ -40,6 +39,11 @@ didCollide(projectile) {
         return true;
     } else {
         return false;
+    }
+}
+removeElement() {
+    if (this.element && this.element.parentNode) {
+        this.element.parentNode.removeChild(this.element);
     }
 }
 }
