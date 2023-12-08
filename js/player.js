@@ -20,7 +20,7 @@ class Player {
         this.gameScreen.appendChild(this.element)
     }
     move () {
-        const speedMultiplier = 0.7;
+        const speedMultiplier = 0.5;
         if (this.left >= 0) {
             this.left += this.directionX * speedMultiplier
         }

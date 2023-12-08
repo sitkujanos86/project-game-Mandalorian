@@ -74,7 +74,7 @@ class Game {
         });
         this.enemies = nextEnemies;
     
-        if (this.animateId % 25 == 0) {
+        if (this.animateId % 40 == 0) {
             this.enemies.push(new Enemy(this.gameScreen));
         }
         this.projectiles.forEach(currentProjectile => {
