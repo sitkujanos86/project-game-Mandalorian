@@ -14,7 +14,7 @@ class Game {
         this.isGameOver = false;
         this.backgroundChanged = false;
         this.backgroundMusic = new Audio('./audio.mp3')
-        this.WINNING_SCORE = 700;
+        this.WINNING_SCORE = 750;
         }
 
     start() {
@@ -74,7 +74,7 @@ class Game {
         });
         this.enemies = nextEnemies;
     
-        if (this.animateId % 40 == 0) {
+        if (this.animateId % 50 == 0) {
             this.enemies.push(new Enemy(this.gameScreen));
         }
         this.projectiles.forEach(currentProjectile => {
